@@ -1,0 +1,32 @@
+<div class="w-full flex flex-col items-center mt-10 login">
+    <h1 class="text-5xl font-bold mb-8" *ngIf="!showSignUp">Login</h1>
+    <h1 class="text-5xl font-bold mb-8" *ngIf="showSignUp">Sign Up</h1>
+      <form class="flex flex-col items-center p-8" [formGroup]="form" (ngSubmit)="handleSubmit($event)">
+        <div class="flex gap-6 justify-center">  
+          <div class="flex flex-col gap-4.5 text-right">
+            <label for="fname" *ngIf="showSignUp">First Name</label>
+            <label for="lname"*ngIf="showSignUp">Last Name</label>
+            <label for="uname">Username</label>
+            <label for="pass">Password</label>
+            <label for="cnfpass"*ngIf="showSignUp">Confirm Password</label>
+          </div>
+          <div class="flex flex-col gap-3">
+            <input class="border rounded px-3 py-1" formControlName="firstname" type="text" placeholder="E.g John" id="fname" required *ngIf="showSignUp">
+            <input class="border rounded px-3 py-1" formControlName="lastname" type="text" placeholder="E.g Adam" id="lname" required *ngIf="showSignUp">
+            <input class="border rounded px-3 py-1" formControlName="username" type="text" placeholder="E.g username_123" id="uname" required >
+            <input class="border rounded px-3 py-1" formControlName="password" type="password" placeholder="Hehe" id="pass" required >
+            <input class="border rounded px-3 py-1" formControlName="cnfpassword" type="password" placeholder="Hehe" id="cnfpass" required *ngIf="showSignUp">
+          </div>
+        </div>
+        <p class="text-lg mt-6" *ngIf="!showSignUp">
+          Not a user? <span class="text-blue-700 cursor-pointer" (click)="toggleShowSignUp()">Sign Up</span>
+        </p>
+        <p class="text-lg mt-6" *ngIf="showSignUp">
+          Already a user? <span class="text-blue-700 cursor-pointer" (click)="toggleShowSignUp()">Login</span>
+        </p>
+        <button class="bg-blue-800 text-white w-40 mt-4 shadow-xl rounded-full hover:shadow-[0_0_10px_green] duration-300 text-xl">
+          Submit
+        </button>
+      </form>
+  </div>
+  

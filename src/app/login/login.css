@@ -1,0 +1,22 @@
+.login form{
+    box-shadow: 0 0 10px black;
+    border-radius: 25px;
+    backdrop-filter: blur(20px);
+}
+
+.login label{
+    font-size: larger;
+    font-weight: 700;
+    text-align: left    ;
+}
+
+.login input{
+    border-bottom: 1px solid gray;
+    &:active{
+        outline: none;
+        border: none;
+    }
+    &:focus{
+        outline: none;
+    }
+}
