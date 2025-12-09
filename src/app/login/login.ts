@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -9,10 +10,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './login.css',
 })
 export class Login {
+
+  constructor(private http: HttpClient){}
+
   form = new FormGroup({
-    username: new FormControl,
-    firstname: new FormControl,
-    lastname: new FormControl,
+    userName: new FormControl,
+    firstName: new FormControl,
+    lastName: new FormControl,
     cnfpassword: new FormControl,
     password: new FormControl
   })
@@ -24,6 +28,18 @@ export class Login {
 
   handleSubmit(e: Event){
     e.preventDefault()
-    console.log(this.form.value)
+    if(!this.showSignUp){
+      this.http.post('http://localhost:8080/users/login', this.form.value)
+     .subscribe({
+          next: (res) => console.log('Success:', res),
+          error: (err) => console.error('Error:', err)
+        });
+    }else{
+      this.http.post('http://localhost:8080/users/signup', this.form.value)
+     .subscribe({
+          next: (res) => console.log('Success:', res),
+          error: (err) => console.error('Error:', err)
+        });
+    }
   }
 }

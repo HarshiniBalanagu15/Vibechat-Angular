@@ -11,9 +11,9 @@
             <label for="cnfpass"*ngIf="showSignUp">Confirm Password</label>
           </div>
           <div class="flex flex-col gap-3">
-            <input class="border rounded px-3 py-1" formControlName="firstname" type="text" placeholder="E.g John" id="fname" required *ngIf="showSignUp">
-            <input class="border rounded px-3 py-1" formControlName="lastname" type="text" placeholder="E.g Adam" id="lname" required *ngIf="showSignUp">
-            <input class="border rounded px-3 py-1" formControlName="username" type="text" placeholder="E.g username_123" id="uname" required >
+            <input class="border rounded px-3 py-1" formControlName="firstName" type="text" placeholder="E.g John" id="fname" required *ngIf="showSignUp">
+            <input class="border rounded px-3 py-1" formControlName="lastName" type="text" placeholder="E.g Adam" id="lname" required *ngIf="showSignUp">
+            <input class="border rounded px-3 py-1" formControlName="userName" type="text" placeholder="E.g username_123" id="uname" required >
             <input class="border rounded px-3 py-1" formControlName="password" type="password" placeholder="Hehe" id="pass" required >
             <input class="border rounded px-3 py-1" formControlName="cnfpassword" type="password" placeholder="Hehe" id="cnfpass" required *ngIf="showSignUp">
           </div>
