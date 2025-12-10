@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class Login {
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private cookieService : CookieService, private router: Router){}
 
   form = new FormGroup({
     userName: new FormControl,
@@ -31,7 +33,12 @@ export class Login {
     if(!this.showSignUp){
       this.http.post('http://localhost:8080/users/login', this.form.value)
      .subscribe({
-          next: (res) => console.log('Success:', res),
+          next: (res) => {console.log('Success:')
+            const data = res as any
+            this.cookieService.set('username',data.username)
+            this.cookieService.set('token',data.token)
+            this.router.navigate(['/'])
+          },
           error: (err) => console.error('Error:', err)
         });
     }else{
@@ -42,4 +49,6 @@ export class Login {
         });
     }
   }
+
+
 }
