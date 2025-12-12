@@ -37,7 +37,7 @@ export class Login {
             const data = res as any
             this.cookieService.set('username',data.username)
             this.cookieService.set('token',data.token)
-            this.router.navigate(['/'])
+            this.router.navigate(['/chat'])
           },
           error: (err) => console.error('Error:', err)
         });

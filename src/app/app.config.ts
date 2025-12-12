@@ -5,12 +5,14 @@ import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authenticateInterceptor } from './authenticate-interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes), provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
-    provideHttpClient(withInterceptors([authenticateInterceptor]))
+    provideHttpClient(withInterceptors([authenticateInterceptor])),
+    CookieService
   ]
 };
