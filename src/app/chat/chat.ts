@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ChatSpace } from "../chat-space/chat-space";
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.html',
   styleUrl: './chat.css',
+  imports: [ChatSpace],
 })
 export class Chat implements OnInit{
   constructor(
@@ -16,7 +18,14 @@ export class Chat implements OnInit{
     private zone: NgZone
   ){}
   username = ""
-  chats: any[] = []
+  chats = signal<any[]>([]);
+  chatRoomId = signal("")
+  reciever = signal("")
+  showChatSpace = signal(false);
+
+  toggleShowChatSpace(){
+    this.showChatSpace.set(!this.showChatSpace())
+  }
 
   ngOnInit(){
     this.username = this.cookie.get('username')
@@ -34,12 +43,18 @@ export class Chat implements OnInit{
       next: (res) => {
         const data:any = res
         this.zone.run(() => {
-          this.chats = data
+          this.chats.set(data)
         })
-        console.log(data[0].user)
       },
       error: (err) => (console.log("error", err))
     })
+  }
+
+  handleChatSpaceOpen(chatRoomId:string, reciever:string){
+    console.log(chatRoomId)
+    this.toggleShowChatSpace()
+    this.chatRoomId.set(chatRoomId)
+    this.reciever.set(reciever)
   }
 
 }

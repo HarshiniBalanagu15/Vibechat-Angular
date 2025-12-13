@@ -1,0 +1,23 @@
+.chatSpace .reciever-icon{
+    width: 40px;
+    height: 40px;
+}
+
+.chatSpace .message-container{
+    max-height: 20%;
+    height: calc(100vh - 24vh);
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+.chatSpace .sendMsg input{
+    border: 2px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+    padding-bottom: 0;
+    &:focus{
+        outline: none;
+    }
+}

@@ -1,28 +1,32 @@
 <div class="chat flex flex-row h-screen">
-  <div class="w-1/4 flex flex-col border-r-2 h-screen gap-2.5 p-4">
-    <div class="rounded-2xl cursor-pointer w-full bg-green-600 h-fit p-3 flex flex-row gap-2">
+  <div class="w-1/4 flex flex-col border-r-2 h-screen gap-2.5 p-4 bg-stone-600">
+    <div class="rounded-2xl cursor-pointer w-full bg-green-600 text-white h-fit p-3 flex flex-row gap-2">
       <i class="fa-solid fa-user mt-1"></i>
       <h1>{{ username }}</h1>
     </div>
 
-    @if(chats.length !== 0){
+    @if(chats().length !== 0){
         <div>
-        @for( chat of chats; track chat.user ){
-            <div class="rounded-2xl cursor-pointer w-full bg-blue-600 h-fit p-3 flex flex-row gap-2">
+        @for( chat of chats(); track $index ){
+            <div class="rounded-2xl cursor-pointer w-full bg-blue-600 text-white h-fit p-3 flex flex-row gap-2" (click)="handleChatSpaceOpen(chat.chatRoomId, chat.user)">
                 <i class="fa-solid fa-user mt-1"></i>
                 <h1>{{ chat.user }}</h1>
             </div>
         }
         </div>
-    }else{
+    }@else{ 
         <div #loading>
             <h1>Loading...</h1>
         </div>
     }
 
   </div>
-
+  
   <div class="w-3/4 flex flex-col h-screen">
-    <h1>Chat display area</h1>
+    @if(showChatSpace()){
+      <app-chat-space [chatRoomId]="chatRoomId()", [username]="reciever()"></app-chat-space>
+    }@else{
+      <h1>chat space appears here</h1>
+    }   
   </div>
 </div>
