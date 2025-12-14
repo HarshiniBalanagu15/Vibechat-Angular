@@ -35,8 +35,8 @@ export class Login {
      .subscribe({
           next: (res) => {console.log('Success:')
             const data = res as any
-            this.cookieService.set('username',data.username)
-            this.cookieService.set('token',data.token)
+            this.cookieService.set('username',data.username, Date.now() + 1000*60*60)
+            this.cookieService.set('token',data.token, Date.now() + 1000*60*60)
             this.router.navigate(['/chat'])
           },
           error: (err) => console.error('Error:', err)

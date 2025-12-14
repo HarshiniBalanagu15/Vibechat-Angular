@@ -17,14 +17,21 @@ export class Chat implements OnInit{
     private route:Router, 
     private zone: NgZone
   ){}
+
   username = ""
   chats = signal<any[]>([]);
   chatRoomId = signal("")
   reciever = signal("")
   showChatSpace = signal(false);
+  showNewUsers = signal(false);
+  newChats = signal<{}[]>([])
 
-  toggleShowChatSpace(){
-    this.showChatSpace.set(!this.showChatSpace())
+  setShowChatSpaceTrue(){
+    this.showChatSpace.set(true)
+  }
+
+  setShowChatSpaceFalse(){
+    this.showChatSpace.set(false)
   }
 
   ngOnInit(){
@@ -51,10 +58,46 @@ export class Chat implements OnInit{
   }
 
   handleChatSpaceOpen(chatRoomId:string, reciever:string){
-    console.log(chatRoomId)
-    this.toggleShowChatSpace()
+    this.setShowChatSpaceTrue()
     this.chatRoomId.set(chatRoomId)
     this.reciever.set(reciever)
+  }
+
+  getNewUsers(){
+    this.http.get(`http://localhost:8080/users/getNewUsersForChat/${this.username}`)
+    .subscribe({
+      next: (res) => {
+        const data:any = res
+        this.newChats.set(data.users)
+        console.log(this.newChats())
+      },
+      error: (err) => { console.log("error: ", err) }
+    })
+  }
+
+  handleShowNewUsers(){
+    if(this.showNewUsers()){
+      this.showNewUsers.set(false)
+      return
+    }
+    this.getNewUsers()
+    this.showNewUsers.set(true)
+  }
+
+  createNewChat(reciever:any){
+    this.reciever.set(reciever)
+    this.http.post(`http://localhost:8080/chat/createNewChat`, {
+      user1: this.username,
+      user2: this.reciever()
+    })
+    .subscribe({
+      next: (res) => {
+        console.log(res)
+        this.getChats(this.username)
+        this.showNewUsers.set(false)
+      },
+      error: (err) => { console.log("error: ", err) }
+    })
   }
 
 }

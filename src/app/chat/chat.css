@@ -1,0 +1,7 @@
+.chat .chatUsersHolder{
+    height: 85vh;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

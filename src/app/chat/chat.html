@@ -5,8 +5,8 @@
       <h1>{{ username }}</h1>
     </div>
 
-    @if(chats().length !== 0){
-        <div>
+    @if(chats().length !== 0 && !showNewUsers()){
+        <div class="chatUsersHolder flex flex-col gap-2.5">
         @for( chat of chats(); track $index ){
             <div class="rounded-2xl cursor-pointer w-full bg-blue-600 text-white h-fit p-3 flex flex-row gap-2" (click)="handleChatSpaceOpen(chat.chatRoomId, chat.user)">
                 <i class="fa-solid fa-user mt-1"></i>
@@ -14,17 +14,26 @@
             </div>
         }
         </div>
+    }@else if(showNewUsers() && newChats().length !== 0){
+        <div class="chatUsersHolder flex flex-col gap-2.5">
+        @for( newUser of newChats(); track $index ){
+            <div class="rounded-2xl cursor-pointer w-full bg-blue-600 text-white h-fit p-3 flex flex-row gap-2" (click)="createNewChat(newUser)">
+                <i class="fa-solid fa-user mt-1"></i>
+                <h1>{{ newUser }}</h1>
+            </div>
+        }
+        </div>
     }@else{ 
-        <div #loading>
+        <div #loading class="chatUserHolder">
             <h1>Loading...</h1>
         </div>
     }
-
+    <div class="flex flex-row justify-end"><i class="fa-solid fa-plus bg-white p-3 pl-0 pr-0 rounded-xl cursor-pointer text-2xl" (click)="handleShowNewUsers()"></i></div>
   </div>
   
   <div class="w-3/4 flex flex-col h-screen">
     @if(showChatSpace()){
-      <app-chat-space [chatRoomId]="chatRoomId()", [username]="reciever()"></app-chat-space>
+      <app-chat-space [chatRoomId]="chatRoomId()" [username]="reciever()" (keydown.escape)="setShowChatSpaceFalse()"></app-chat-space>
     }@else{
       <h1>chat space appears here</h1>
     }   
