@@ -1,10 +1,14 @@
-<main class="text-black">
+<main class="flex flex-col text-black">
     <div class="text-center ">
-      <h1 class="font-bold text-4xl">{{title()}}</h1>
+      <header class = "text-center">
+        <h1 class="font-bold text-5xl pt-5">{{title()}}</h1>
+      </header>
+      <div class ="pt-25">
       <h2 class="font-bold text-3xl">Welcome to our Vibe chat community!!</h2>
-      <p>Join conversations, share moments, and stay connected.</p>
-      <p>Our platform is more than just a messaging app—it’s a place where people connect, share, and grow together.</p>
-      <p>Start exploring and enjoy a seamless chatting experience built with you in mind!</p>
+      <p class = "mb-2">Join conversations, share moments, and stay connected.</p>
+      <p class = "mb-2">Our platform is more than just a messaging app—it’s a place where people connect, share, and grow together.</p>
+      <p class = "mb-6" >Start exploring and enjoy a seamless chatting experience built with you in mind!</p>
       <button (click)="handleButtonClick()" class="bg-blue-700 rounded-2xl px-4 py-3 cursor-pointer text-white font-semibold shadow-[0_0_10px_black,0_0_20px_black] mt-5 hover:shadow-[0_0_10px_white,0_0_20px_black]">Get Started</button>
+    </div>
     </div>
 </main>

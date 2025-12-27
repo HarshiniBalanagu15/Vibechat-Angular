@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, NgZone, OnInit, signal } from '@angular/core';
+import { Component, NgZone, OnInit, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ChatSpace } from "../chat-space/chat-space";
@@ -17,6 +17,9 @@ export class Chat implements OnInit{
     private route:Router, 
     private zone: NgZone
   ){}
+
+  @ViewChild(ChatSpace)
+  chatSpace!: ChatSpace
 
   username = ""
   chats = signal<any[]>([]);
@@ -58,9 +61,12 @@ export class Chat implements OnInit{
   }
 
   handleChatSpaceOpen(chatRoomId:string, reciever:string){
-    this.setShowChatSpaceTrue()
     this.chatRoomId.set(chatRoomId)
     this.reciever.set(reciever)
+    this.setShowChatSpaceFalse()
+    this.setShowChatSpaceTrue()
+    this.chatSpace.chatId = chatRoomId
+    this.chatSpace.unSubscribe()
   }
 
   getNewUsers(){

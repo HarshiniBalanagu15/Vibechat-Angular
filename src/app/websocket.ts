@@ -21,7 +21,6 @@ export class WebSocketService {
     this.client = new Client({
       brokerURL: 'ws://localhost:8080/ws',
       reconnectDelay: 5000,
-      debug: msg => console.log(msg)
     });
 
     this.client.onConnect = () => {
@@ -40,7 +39,7 @@ export class WebSocketService {
   subscribeToRoom(roomId: string, callback: (msg: any) => void) {
     const destination = `/topic/chat/${roomId}`;
 
-    if (this.subscriptions.has(roomId)) return;
+    // if (this.subscriptions.has(roomId)) return;
 
     this.subscriptions.set(roomId, { destination, callback });
 
@@ -49,7 +48,6 @@ export class WebSocketService {
         destination,
         message => callback(JSON.parse(message.body))
       );
-
       this.subscriptions.get(roomId)!.stompSub = stompSub;
     }
   }
@@ -63,6 +61,11 @@ export class WebSocketService {
         sender
       })
     });
+  }
+
+  unSubscribe(roomId: string){
+    const destination = `/topic/chat/${roomId}`;
+    this.client.unsubscribe(destination);
   }
 
   disconnect() {

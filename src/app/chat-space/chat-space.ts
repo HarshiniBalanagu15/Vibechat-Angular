@@ -18,22 +18,23 @@ interface ChatMsg{
 })
 
 export class ChatSpace {
-  chatRoomId = input<string>()
+  chatRoomId = input<any>()
+  chatId:string = ""
   username = input<string>()
   msgs = signal<ChatMsg[]>([])
   message = signal("")
   sender = signal("")
   constructor(private http:HttpClient, private cookie: CookieService, private ws: WebSocketService){}
 
-  ngOnInit(){
-    this.sender.set(this.cookie.get('username'))
-    this.http.get(`http://localhost:8080/chat/getChat/${this.chatRoomId()}`)
+  getMessages(){
+    if(this.chatId === "" && this.chatRoomId()){ this.chatId = this.chatRoomId()}
+    this.http.get(`http://localhost:8080/chat/getChat/${this.chatId}`)
     .subscribe({
       next: (res) => {
+        this.msgs.set([])
         const data:any = res
         this.msgs.set(data)
         console.log(data);
-        console.log(this.username())
       },
       error: (err) => { console.log("error: ", err) }
     })
@@ -42,11 +43,20 @@ export class ChatSpace {
         console.log("New message received: ", msg)
       this.msgs.update(msgs => [...msgs, msg])
     })
-    
+  }
+
+  ngOnInit(){
+    this.sender.set(this.cookie.get('username'))
+    this.getMessages()    
+  }
+
+  unSubscribe(){
+    this.ws.unSubscribe(this.chatRoomId()!)
+    this.getMessages()
   }
 
   setMesg(msg:string){
-    this.message.set(msg)
+    this.message.set(msg.trim())
   }
 
   handleChatSend(e: Event){
